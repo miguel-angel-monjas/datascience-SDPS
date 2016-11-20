@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f22eb27f-10b0-4365-8efc-0e7a055736b3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MapReduce/mapper_ng.py" afterPath="$PROJECT_DIR$/MapReduce/mapper_ng.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MapReduce/reducer_ng.py" afterPath="$PROJECT_DIR$/MapReduce/reducer_ng.py" />
     </list>
     <ignored path="Python.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -368,7 +366,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479683479648</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Hashtag analysis">
+      <created>1479683502491</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1479683502491</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
