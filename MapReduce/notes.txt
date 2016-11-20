@@ -1,0 +1,33 @@
+Some notes with regard to the execution on the Hortonworks sandbox:
+
+1. You need to initialize the HDFS file system. It is done in the following way:
+hdfs dfs -mkdir /user/<username>
+As the username is root:
+hdfs dfs -mkdir /user/root
+
+2. The jar file can be found in /usr/hdp/current/hadoop-mapreduce-client,
+
+3. The cluster does have a name and it's not localhost. The hostname is sandbox.hortonworks.com (as extracted from /etc/hosts) and also 127.0.0.2 can be used.
+
+4. As the host machine is Windows, dos2unix has to be installed in the sandbox:
+yum install dos2unix
+
+5. python files must be made executable:
+chmod a+x ./mapper.py
+chmod a+x ./reducer.py
+
+6. Before executing, they must be converted to Linux format:
+dos2unix mapper.py
+dos2unix reducer.py
+
+7. Mind that the -files option requires that there is no space after the comma:
+-files mapper.py,reducer.py
+
+8. Install package us
+cd /usr/bin
+sudo yum install python-pip
+pip install us
+IT DOES NOT WORK
+
+9. Run:
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -files mapper_ng.py,reducer_ng.py -mapper mapper_ng.py -reducer reducer_ng.py -input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt -output hdfs://sandbox.hortonworks.com/user/root/output/streaming
