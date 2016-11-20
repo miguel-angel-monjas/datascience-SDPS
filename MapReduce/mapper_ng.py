@@ -2,12 +2,14 @@
 
 import json
 #import us
-#from us_states import states
+#from us_states import us_states as states
 import os
 import re
 import sys
 
-states = {
+sys.path.append('.')
+
+STATES = {
         'AK': 'Alaska',
         'AL': 'Alabama',
         'AR': 'Arkansas',
@@ -69,18 +71,16 @@ states = {
         'WV': 'West Virginia',
         'WY': 'Wyoming'
 }
+AFFIN_FILE = 'AFINN-111.txt'
 
-sys.path.append('.')
-
-pathname = os.path.join(os.getcwd(), 'AFINN-111.txt')
-dictionary = {}
-
-f = open('AFINN-111.txt', 'r')
+# affinity file opening and dictionary population
+afinn_dictionary = {}
+f = open(AFFIN_FILE, 'r')
 for line in f:
-    dictionary[line.split('\t')[0]] = int(line.strip().split('\t')[1])
+    afinn_dictionary[line.split('\t')[0]] = int(line.strip().split('\t')[1])
 f.close()
-#print dictionary
 
+# input processing
 for line in sys.stdin:
     try:
         tweet = json.loads(line, encoding='latin-1')
@@ -90,32 +90,27 @@ for line in sys.stdin:
         if tweet_place == None :
             continue
     except Exception as e:
+        #print type(e).__name__
         continue
+
     try:
-        #print line
-        #print tweet_place
-        #raw_input('>')
         tweet_country = tweet_place['country_code']
         if tweet_country == 'US' and tweet_lang == 'en':
-            #print tweet_text
             tweet_score = 0
-            words = re.findall(r"[\w']+|", tweet_text)
+            words = re.findall(r"[\w'#]+", tweet_text)
             words = [word.lower() for word in words if (len(word) > 0)]
             for word in words :
-                if word in dictionary:
-                    tweet_score += dictionary[word]
+                if '#' in word :
+                    word = word.replace('#','')
+                if word in afinn_dictionary:
+                    tweet_score += afinn_dictionary[word]
             location_tokens = tweet_place['full_name'].split(', ')
             if location_tokens[1] == 'USA' :
                 tweet_us_state = location_tokens[0]
             else :
-                tweet_us_state = states[location_tokens[1]]
+                tweet_us_state = STATES[location_tokens[1]]
                 #tweet_us_state = us.states.lookup(location_tokens[1]).name
             print ('%s\t%d' % (tweet_us_state, tweet_score))
     except Exception as e:
         #print type(e).__name__
-        #print "No country code"
         continue
-
-    #tweets_data.append(tweet)
-
-#print len(tweets_data)
