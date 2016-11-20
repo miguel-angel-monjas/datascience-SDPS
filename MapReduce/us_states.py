@@ -1,4 +1,4 @@
-states = {
+us_states = {
         'AK': 'Alaska',
         'AL': 'Alabama',
         'AR': 'Arkansas',
