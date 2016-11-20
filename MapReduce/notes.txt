@@ -2,14 +2,16 @@ Some notes with regard to the execution on the Hortonworks sandbox:
 
 1. You need to initialize the HDFS file system. It is done in the following way:
 hdfs dfs -mkdir /user/<username>
+
 As the username is root:
 hdfs dfs -mkdir /user/root
 
-2. The jar file can be found in /usr/hdp/current/hadoop-mapreduce-client,
+2. The jar file can be found in /usr/hdp/current/hadoop-mapreduce-client
 
-3. The cluster does have a name and it's not localhost. The hostname is sandbox.hortonworks.com (as extracted from /etc/hosts) and also 127.0.0.2 can be used.
+3. The cluster does have a name and it's not localhost. The hostname is sandbox.hortonworks.com (as extracted from
+/etc/hosts) and also 127.0.0.2 can be used.
 
-4. As the host machine is Windows, dos2unix has to be installed in the sandbox:
+4. As the host machine I'm using is Windows, dos2unix has to be installed in the sandbox:
 yum install dos2unix
 
 5. python files must be made executable:
@@ -23,11 +25,25 @@ dos2unix reducer.py
 7. Mind that the -files option requires that there is no space after the comma:
 -files mapper.py,reducer.py
 
-8. Install package us
+[8]. Install package us
 cd /usr/bin
 sudo yum install python-pip
 pip install us
-IT DOES NOT WORK
 
-9. Run:
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -files mapper_ng.py,reducer_ng.py -mapper mapper_ng.py -reducer reducer_ng.py -input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt -output hdfs://sandbox.hortonworks.com/user/root/output/streaming
+9. Run (in the same line):
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -files mapper_ng.py,reducer_ng.py
+-mapper mapper_ng.py -reducer reducer_ng.py -input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt
+-output hdfs://sandbox.hortonworks.com/user/root/output/streaming
+
+10. Examine the results. The output of the execution will probably finish with a line such as this:
+16/11/20 03:40:04 INFO streaming.StreamJob: Output directory: hdfs://sandbox.hortonworks.com/user/root/output/streaming_01
+
+First of all, we need to know the name of the result "file":
+[root@sandbox ~]# hdfs dfs -ls /user/root/output/streaming_01
+Found 2 items
+-rw-r--r--   1 root hdfs          0 2016-11-20 03:40 /user/root/output/streaming_01/_SUCCESS
+-rw-r--r--   1 root hdfs        566 2016-11-20 03:40 /user/root/output/streaming_01/part-00000
+
+Thus, we get part-00000:
+
+[root@sandbox ~]# hdfs dfs -getmerge hdfs://sandbox.hortonworks.com/user/root/output/streaming_01 ./results_01.txt

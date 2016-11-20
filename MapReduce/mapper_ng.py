@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 import json
-import sys
 #import us
-import os
 #from us_states import states
+import os
 import re
+import sys
 
 states = {
         'AK': 'Alaska',
@@ -70,10 +70,12 @@ states = {
         'WY': 'Wyoming'
 }
 
+sys.path.append('.')
+
 pathname = os.path.join(os.getcwd(), 'AFINN-111.txt')
 dictionary = {}
 
-f = open(pathname, 'r')
+f = open('AFINN-111.txt', 'r')
 for line in f:
     dictionary[line.split('\t')[0]] = int(line.strip().split('\t')[1])
 f.close()
