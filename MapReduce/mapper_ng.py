@@ -87,7 +87,7 @@ for line in sys.stdin:
         tweet_text = tweet["text"]
         tweet_lang = tweet["lang"]
         tweet_place = tweet['place']
-        if tweet_place == None :
+        if tweet_place is None:
             continue
     except Exception as e:
         #print type(e).__name__
@@ -97,20 +97,29 @@ for line in sys.stdin:
         tweet_country = tweet_place['country_code']
         if tweet_country == 'US' and tweet_lang == 'en':
             tweet_score = 0
-            words = re.findall(r"[\w'#]+", tweet_text)
-            words = [word.lower() for word in words if (len(word) > 0)]
-            for word in words :
-                if '#' in word :
+            words = re.findall(r"[\w'#@]+", tweet_text)
+            #print tweet_text
+            words = [word for word in words if (len(word) > 0)]
+            for word in words:
+                if word.startswith('#'):
                     word = word.replace('#','')
+                    hash_key = [0, word]
+                    print ('%s\t1' % (hash_key))
+                elif '#' in word:
+                    continue
+                elif '@' in word:
+                    continue
+                word = word.lower()
                 if word in afinn_dictionary:
                     tweet_score += afinn_dictionary[word]
             location_tokens = tweet_place['full_name'].split(', ')
-            if location_tokens[1] == 'USA' :
+            if location_tokens[1] == 'USA':
                 tweet_us_state = location_tokens[0]
-            else :
+            else:
                 tweet_us_state = STATES[location_tokens[1]]
                 #tweet_us_state = us.states.lookup(location_tokens[1]).name
-            print ('%s\t%d' % (tweet_us_state, tweet_score))
+                affin_key = [1, tweet_us_state]
+            print ('%s\t%d' % (affin_key, tweet_score))
     except Exception as e:
         #print type(e).__name__
         continue
