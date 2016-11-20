@@ -1,0 +1,51 @@
+Alabama;39;0.26	
+Alaska;9;-0.67	
+Arizona;69;1.00	
+Arkansas;12;0.17	
+California;344;0.92	
+Colorado;35;1.17	
+Connecticut;21;0.19	
+Delaware;2;-3.50	
+District of Columbia;34;-0.44	
+Florida;175;1.19	
+Georgia;118;0.63	
+Hawaii;5;0.60	
+Idaho;4;-0.25	
+Illinois;120;0.75	
+Indiana;60;0.82	
+Iowa;21;0.81	
+Kansas;21;0.57	
+Kentucky;39;1.62	
+Louisiana;68;0.53	
+Maine;2;2.00	
+Maryland;57;0.39	
+Massachusetts;101;0.73	
+Michigan;77;0.78	
+Minnesota;34;1.21	
+Mississippi;24;-0.12	
+Missouri;48;0.65	
+Montana;3;-1.00	
+Nebraska;17;0.76	
+Nevada;33;0.45	
+New Hampshire;7;0.57	
+New Jersey;53;-0.58	
+New Mexico;9;1.78	
+New York;245;0.69	
+North Carolina;77;1.49	
+North Dakota;3;0.00	
+Ohio;127;0.36	
+Oklahoma;32;1.06	
+Oregon;46;0.65	
+Pennsylvania;93;0.47	
+Rhode Island;6;0.50	
+South Carolina;22;-0.27	
+South Dakota;6;1.50	
+Tennessee;69;0.93	
+Texas;364;0.79	
+Utah;19;0.32	
+Vermont;2;0.00	
+Virginia;102;0.79	
+Washington;51;1.43	
+West Virginia;15;1.27	
+Wisconsin;18;0.17	
+Wyoming;2;0.00	

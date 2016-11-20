@@ -1,0 +1,10 @@
+job: 161	
+Hiring: 141	
+CareerArc: 113	
+hiring: 55	
+Job: 54	
+Jobs: 50	
+VeteransDay: 47	
+Hospitality: 34	
+Veterans: 25	
+Retail: 23	
