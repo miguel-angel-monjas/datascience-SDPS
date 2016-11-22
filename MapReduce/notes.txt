@@ -33,13 +33,15 @@ pip install us
 9. Clean former outputs:
 hdfs dfs -rmr /user/root/output
 
-10. Run (in the same line; for the hashtag option use '--type hashtags' instead):
+10. Run (in the same line; for the hashtag option use '--type hashtags' instead).
+10. a) Test with dump.txt and 'states' as option.
 hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
 -files mapper_ng.py,reducer_ng.py,AFINN-111.txt,us_states.txt
 -mapper mapper_ng.py -reducer 'reducer_ng.py --type states'
 -input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt
 -output hdfs://sandbox.hortonworks.com/user/root/output/streaming_01
 
+10. b) Real execution with dump2.txt and 'states' as option.
 hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
 -files mapper_ng.py,reducer_ng.py,AFINN-111.txt,us_states.txt
 -mapper mapper_ng.py -reducer 'reducer_ng.py --type states'
@@ -52,3 +54,12 @@ hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
 Thus, we get the directory:
 
 [root@sandbox ~]# hdfs dfs -getmerge hdfs://sandbox.hortonworks.com/user/root/output/streaming_01 ./results_01.txt
+
+12. If we want to chain two reduce operations, the output of the first reduce operation has to be used as input (it is
+named part-00000). The mapper should be the cat command ('/bin/cat'). Thus, for option 10.b) above:
+
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
+-files reducer_02.py
+-mapper '/bin/cat' -reducer 'reducer_02_py'
+-input hdfs://sandbox.hortonworks.com/user/root/output/streaming_01/part-00000
+-output hdfs://sandbox.hortonworks.com/user/root/output/streaming_011
