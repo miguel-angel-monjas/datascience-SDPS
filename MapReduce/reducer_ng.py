@@ -108,7 +108,7 @@ if reduce_operation == 'states':
         state_dict[state][1] += tweet_score
     # print dictionary
     state_bag = [(v, k) for v, k in state_dict.iteritems()]
-    state_bag.sort(reverse=True)
+    state_bag.sort()
     for v, k in state_bag:
         print '%s;%d;%.2f' % (v, k[0], float(k[1]) / float(k[0]))
 
@@ -116,4 +116,4 @@ if reduce_operation == 'hashtags':
     inverse_bag = [(v, k) for k, v in hashtag_bag.iteritems()]
     inverse_bag.sort(reverse=True)
     for v, k in inverse_bag[:10]:
-        print "%s: %d" % (k, v)
+        print "%s: %d" % (k[1:], v)
