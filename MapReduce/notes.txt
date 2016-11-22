@@ -30,12 +30,23 @@ cd /usr/bin
 sudo yum install python-pip
 pip install us
 
-9. Run (in the same line):
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -files mapper_ng.py,reducer_ng.py,AFINN-111.txt
--mapper mapper_ng.py -reducer reducer_ng.py -input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt
--output hdfs://sandbox.hortonworks.com/user/root/output/streaming
+9. Clean former outputs:
+hdfs dfs -rmr /user/root/output
 
-10. Examine the results. The output of the execution will probably finish with a line such as this:
+10. Run (in the same line; for the hashtag option use '--type hashtags' instead):
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
+-files mapper_ng.py,reducer_ng.py,AFINN-111.txt,us_states.txt
+-mapper mapper_ng.py -reducer 'reducer_ng.py --type states'
+-input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt
+-output hdfs://sandbox.hortonworks.com/user/root/output/streaming_01
+
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
+-files mapper_ng.py,reducer_ng.py,AFINN-111.txt,us_states.txt
+-mapper mapper_ng.py -reducer 'reducer_ng.py --type states'
+-input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump2.txt
+-output hdfs://sandbox.hortonworks.com/user/root/output/streaming_02
+
+11. Examine the results. The output of the execution will probably finish with a line such as this:
 16/11/20 03:40:04 INFO streaming.StreamJob: Output directory: hdfs://sandbox.hortonworks.com/user/root/output/streaming_01
 
 Thus, we get the directory:
