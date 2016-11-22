@@ -2,10 +2,9 @@
 
 """Implements two mapper functions for the Tweeter feeling problem.
 
-The first mapper function computes the score for each tweet and provides an
-output for each tweet. Key is the state and value the score.
-The second mapper function provides an output for each hashtag. Key is the
-hashtag, value is not relevant.
+The first mapper function extracts the valid words from the tweet. The tweet id is used as key while the value is
+a tuple containing the state and the actual word.
+The second mapper function provides an output for each hashtag. Key is the hashtag, value is not relevant.
 """
 
 import json
