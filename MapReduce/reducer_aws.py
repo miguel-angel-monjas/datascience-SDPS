@@ -81,14 +81,11 @@ for line in sys.stdin:
             last_tweet = tweet_id
             if state != last_state:
                 # state change: flush data if needed
-                print "Flushing data", last_state, tweet_score
                 if last_state not in state_dict and tweet_score != 0:
-                    print "New", last_state
                     state_dict[last_state] = []
                     state_dict[last_state].append(1)
                     state_dict[last_state].append(tweet_score)
                 elif tweet_score != 0:
-                    print "Existing", last_state
                     state_dict[last_state][0] += 1
                     state_dict[last_state][1] += tweet_score
                 last_state = state

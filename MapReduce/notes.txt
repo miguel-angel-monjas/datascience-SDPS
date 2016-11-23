@@ -58,8 +58,6 @@ Thus, we get the directory:
 12. If we want to chain two reduce operations, the output of the first reduce operation has to be used as input (it is
 named part-00000). The mapper should be the cat command ('/bin/cat'). Thus, for option 10.b) above:
 
-hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar
--files reducer_02.py
--mapper '/bin/cat' -reducer 'reducer_02_py'
--input hdfs://sandbox.hortonworks.com/user/root/output/streaming_01/part-00000
--output hdfs://sandbox.hortonworks.com/user/root/output/streaming_011
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -files mapper_ng.py,reducer_chained_01.py,AFINN-111.txt,us_states.txt -mapper mapper_ng.py -reducer 'reducer_chained_01.py --type states' -input hdfs://sandbox.hortonworks.com/user/root/input/streaming/dump.txt -output hdfs://sandbox.hortonworks.com/user/root/output/streaming_01
+
+hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop-streaming.jar -files reducer_chained_02.py -mapper '/bin/cat' -reducer reducer_chained_02.py -input hdfs://sandbox.hortonworks.com/user/root/output/streaming_01/part-00000 -output hdfs://sandbox.hortonworks.com/user/root/output/streaming_011
