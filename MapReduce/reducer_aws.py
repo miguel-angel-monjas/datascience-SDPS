@@ -15,7 +15,7 @@ Adaptation to AWS EMR is done by using an S3 URL instead of a local file locatio
 import argparse
 import sys
 from ast import literal_eval
-import urllib2
+import urllib
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
@@ -36,7 +36,9 @@ else:
 
 # affinity file opening and dictionary population
 afinn_dictionary = {}
-f = urllib2.urlopen(AFFIN_FILE_URL)
+
+opener = urllib.URLopener()
+f = opener.open(AFFIN_FILE_URL)
 for line in f:
     afinn_dictionary[line.split('\t')[0]] = int(line.strip().split('\t')[1])
 

@@ -13,7 +13,7 @@ Adaptation to AWS EMR is done by using an S3 URL instead of a local file locatio
 import json
 import re
 import sys
-import urllib2
+import urllib
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
@@ -25,7 +25,9 @@ STATES_FILE_URL = 'https://s3-eu-west-1.amazonaws.com/urjc.datascience.mmonjas.e
 
 # state file opening and dictionary population
 states_dictionary = {}
-f = urllib2.urlopen(STATES_FILE_URL)
+
+opener = urllib.URLopener()
+f = opener.open(STATES_FILE_URL)
 for line in f:
     states_dictionary[line.split('\t')[0]] = line.strip().split('\t')[1]
 
