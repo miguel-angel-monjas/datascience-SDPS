@@ -79,11 +79,11 @@ for line in sys.stdin:
             last_tweet = tweet_id
             if state != last_state:
                 # state change: flush data if needed
-                if last_state not in state_dict and tweet_score != 0:
+                if last_state not in state_dict:
                     state_dict[last_state] = []
                     state_dict[last_state].append(1)
                     state_dict[last_state].append(tweet_score)
-                elif tweet_score != 0:
+                else:
                     state_dict[last_state][0] += 1
                     state_dict[last_state][1] += tweet_score
                 last_state = state
@@ -100,11 +100,11 @@ for line in sys.stdin:
 
 if reduce_operation == 'states':
     # store last tweet
-    if last_state not in state_dict and tweet_score != 0:
+    if last_state not in state_dict:
         state_dict[last_state] = []
         state_dict[last_state].append(1)
         state_dict[last_state].append(tweet_score)
-    elif tweet_score != 0:
+    else:
         state_dict[last_state][0] += 1
         state_dict[last_state][1] += tweet_score
 

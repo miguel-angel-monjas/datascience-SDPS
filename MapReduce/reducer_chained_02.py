@@ -30,11 +30,10 @@ for line in sys.stdin:
 
     if state != last_state:
         # state change: flush data if needed
-        print('%s;%s' %(last_state, tweet_score))
         print '%s;%d;%.2f' % (last_state, tweet_counter, float(tweet_score) / float(tweet_counter))
         last_state = state
-        tweet_score = 0
-        tweet_counter = 0
+        tweet_score = int(score)
+        tweet_counter = 1
     else :
         tweet_score += int(score)
         tweet_counter += 1
