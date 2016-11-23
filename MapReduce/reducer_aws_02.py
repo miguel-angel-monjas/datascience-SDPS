@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
-import argparse
 import sys
-from ast import literal_eval
-import urllib2
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
@@ -22,7 +19,6 @@ for line in sys.stdin:
         state_dict[state] = 1
     else:
         state_dict[state] += 1
-
 
 # print dictionary
 state_bag = [(v, k) for v, k in state_dict.iteritems()]

@@ -87,7 +87,3 @@ for line in sys.stdin:
     except Exception as e:
         #print type(e).__name__
         continue
-
-    #tweets_data.append(tweet)
-
-#print len(tweets_data)

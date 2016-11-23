@@ -8,7 +8,6 @@ The second mapper function provides an output for each hashtag. Key is the hasht
 """
 
 import json
-import os
 import re
 import sys
 

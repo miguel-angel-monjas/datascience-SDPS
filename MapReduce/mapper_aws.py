@@ -6,7 +6,7 @@ The first mapper function extracts the valid words from the tweet. The tweet id 
 a tuple containing the state and the actual word. The second mapper function provides an output for each hashtag. Key
 is the hashtag, value is not relevant.
 
-Adaptation to AWS EMR is done by using an S3 URL instead of a local file location.
+Adaptation to AWS EMR is done by using an S3 URL instead of a local file location. It must be saved in Unix format
 
 """
 

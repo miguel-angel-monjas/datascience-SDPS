@@ -9,7 +9,7 @@ The output is also a CSV structure.
 
 Reducer selection is made by means of the --type argument
 
-Adaptation to AWS EMR is done by using an S3 URL instead of a local file location.
+Adaptation to AWS EMR is done by using an S3 URL instead of a local file location. It must be saved in Unix format.
 """
 
 import argparse

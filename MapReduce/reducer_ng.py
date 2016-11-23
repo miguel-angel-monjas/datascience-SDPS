@@ -51,9 +51,10 @@ tweet_score = 0
 
 # input comes from STDIN
 for line in sys.stdin:
-    line = line.strip()
     # capture lines
+    line = line.strip()
     key, value = line.split('\t')
+
     if key.startswith('#'):
         if reduce_operation == 'states':
             continue

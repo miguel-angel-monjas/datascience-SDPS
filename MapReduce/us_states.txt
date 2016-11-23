@@ -27,7 +27,6 @@ MH	Marshall Islands
 MI	Michigan
 MN	Minnesota
 MO	Missouri
-MP	Northern Mariana Islands
 MS	Mississippi
 MT	Montana
 NA	National
