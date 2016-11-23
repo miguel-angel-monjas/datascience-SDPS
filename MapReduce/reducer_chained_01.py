@@ -78,14 +78,8 @@ for line in sys.stdin:
             # first word in tweet: store previous tweet score and initialize counters
             last_tweet = tweet_id
             if state != last_state:
-                # state change: flush data if needed
-                if last_state not in state_dict and tweet_score != 0:
-                    state_dict[last_state] = []
-                    state_dict[last_state].append(1)
-                    state_dict[last_state].append(tweet_score)
-                elif tweet_score != 0:
-                    state_dict[last_state][0] += 1
-                    state_dict[last_state][1] += tweet_score
+                # state change: flush data
+                print "%s\t%d" % (last_state, tweet_score)
                 last_state = state
             if word in afinn_dictionary:
                 tweet_score = afinn_dictionary[word]
@@ -99,20 +93,8 @@ for line in sys.stdin:
                 continue
 
 if reduce_operation == 'states':
-    # store last tweet
-    if last_state not in state_dict and tweet_score != 0:
-        state_dict[last_state] = []
-        state_dict[last_state].append(1)
-        state_dict[last_state].append(tweet_score)
-    elif tweet_score != 0:
-        state_dict[last_state][0] += 1
-        state_dict[last_state][1] += tweet_score
-
-    # print dictionary
-    state_bag = [(v, k) for v, k in state_dict.iteritems()]
-    state_bag.sort()
-    for v, k in state_bag:
-        print '%s;%d;%.2f' % (v, k[0], float(k[1]) / float(k[0]))
+    # issue last tweet
+    print "%s\t%d" % (last_state, tweet_score)
 
 if reduce_operation == 'hashtags':
     inverse_bag = [(v, k) for k, v in hashtag_bag.iteritems()]

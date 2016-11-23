@@ -4,15 +4,18 @@
 
 The first reducer function takes the output of the mapper function and
 determines the average per-state Tweeter feeling. The output is a CSV
-structure.
-The second reducer function determines the ten most popular hashtags.
+structure. The second reducer function determines the ten most popular hashtags.
 The output is also a CSV structure.
+
 Reducer selection is made by means of the --type argument
+
+Adaptation to AWS EMR is done by using an S3 URL instead of a local file location.
 """
 
 import argparse
 import sys
 from ast import literal_eval
+import urllib2
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
@@ -20,7 +23,7 @@ __license__ = "Apache 2.0"
 
 sys.path.append('.')
 
-AFFIN_FILE = 'AFINN-111.txt'
+AFFIN_FILE_URL = 'https://s3-eu-west-1.amazonaws.com/urjc.datascience.mmonjas.emr/logic/AFINN-111.txt'
 
 # argument management
 parser = argparse.ArgumentParser()
@@ -33,10 +36,9 @@ else:
 
 # affinity file opening and dictionary population
 afinn_dictionary = {}
-f = open(AFFIN_FILE, 'r')
+f = urllib2.urlopen(AFFIN_FILE_URL)
 for line in f:
     afinn_dictionary[line.split('\t')[0]] = int(line.strip().split('\t')[1])
-f.close()
 
 # some nice counters
 last_tweet = None
@@ -79,11 +81,14 @@ for line in sys.stdin:
             last_tweet = tweet_id
             if state != last_state:
                 # state change: flush data if needed
+                print "Flushing data", last_state, tweet_score
                 if last_state not in state_dict and tweet_score != 0:
+                    print "New", last_state
                     state_dict[last_state] = []
                     state_dict[last_state].append(1)
                     state_dict[last_state].append(tweet_score)
                 elif tweet_score != 0:
+                    print "Existing", last_state
                     state_dict[last_state][0] += 1
                     state_dict[last_state][1] += tweet_score
                 last_state = state
