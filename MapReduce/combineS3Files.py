@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # print parts_list
 
     small_parts = []
-    ouptput_filename = 'results.txt'
+    ouptput_filename = 'results_.txt'
     for source_part in parts_list:
         temp_filename = "/tmp/{}".format(source_part[0].replace("/", "_"))
         s3.download_file(Bucket=BUCKET, Key=source_part[0], Filename=temp_filename)
