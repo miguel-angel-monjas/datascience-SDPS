@@ -116,7 +116,7 @@ if reduce_operation == 'states':
     state_bag = [(v, k) for v, k in state_dict.iteritems()]
     state_bag.sort()
     for v, k in state_bag:
-        print '%s;%d;%.2f' % (v, k[0], float(k[1]) / float(k[0]))
+        print '%s\t(%d,%.2f)' % (v, k[0], float(k[1]) / float(k[0]))
 
 if reduce_operation == 'hashtags':
     inverse_bag = [(v, k) for k, v in hashtag_bag.iteritems()]
