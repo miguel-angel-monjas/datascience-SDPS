@@ -13,11 +13,14 @@ Reducer selection is made by means of the --type argument
 import argparse
 import sys
 from ast import literal_eval
+from datetime import datetime
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
 __license__ = "Apache 2.0"
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 sys.path.append('.')
 
 AFFIN_FILE = 'AFINN-111.txt'
@@ -120,3 +123,5 @@ if reduce_operation == 'hashtags':
     inverse_bag.sort(reverse=True)
     for v, k in inverse_bag[:10]:
         print "%s: %d" % (k[1:], v)
+
+sys.stderr.write('%s\n' %(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))

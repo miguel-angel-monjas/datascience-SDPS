@@ -49,7 +49,10 @@ for line in sys.stdin:
         if tweet_country == 'US' and tweet_lang == 'en':
             location_tokens = tweet_place['full_name'].split(', ')
             if location_tokens[1] == 'USA':
-                tweet_us_state = location_tokens[0]
+                if location_tokens[0] in states_dictionary.values():
+                    tweet_us_state = location_tokens[0]
+                else:
+                    raise ValueError('Wrong state name')
             else:
                 tweet_us_state = states_dictionary[location_tokens[1]]
 

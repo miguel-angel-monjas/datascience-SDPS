@@ -10,6 +10,7 @@ The second mapper function provides an output for each hashtag. Key is the hasht
 import json
 import re
 import sys
+from datetime import datetime
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
@@ -27,6 +28,7 @@ for line in f:
 f.close()
 
 # input processing
+sys.stderr.write('%s\n' %(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 for line in sys.stdin:
     try:
         tweet = json.loads(line, encoding='latin-1')
@@ -45,7 +47,10 @@ for line in sys.stdin:
         if tweet_country == 'US' and tweet_lang == 'en':
             location_tokens = tweet_place['full_name'].split(', ')
             if location_tokens[1] == 'USA':
-                tweet_us_state = location_tokens[0]
+                if location_tokens[0] in states_dictionary.values() :
+                    tweet_us_state = location_tokens[0]
+                else :
+                    raise ValueError('Wrong state name')
             else:
                 tweet_us_state = states_dictionary[location_tokens[1]]
 
