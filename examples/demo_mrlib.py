@@ -8,6 +8,7 @@ class MRWordFrequencyCount(MRJob) :
         yield "chars", len(line)
         yield "words", len(line.split())
         yield "lines", 1
+
     def reducer(self, key, values) :
         yield key, sum(values)
 
