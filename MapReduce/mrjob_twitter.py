@@ -19,11 +19,14 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.append('.')
 
-def length(iterable):
+def length_and_sum(iterable):
     i = 0
-    for x in iterable:
+    total = 0
+    for item in iterable :
         i += 1
-    return i
+        total += item
+    #print i, total
+    return i, total
 
 class MRWordFrequencyCount(MRJob) :
 
@@ -71,28 +74,25 @@ class MRWordFrequencyCount(MRJob) :
             # print type(e).__name__
             return
 
-    def combiner(self, key, value):
+    def combiner(self, tweet_id, state_and_word):
         state_dict = {}
-        for item in value:
-            [state, word] = item
+        for [state, word] in state_and_word:
+            tweet_score = 0
             if word in afinn_dictionary:
                 tweet_score = afinn_dictionary[word]
-            else:
-                tweet_score = 0
+
             if state not in state_dict:
-                state_dict[state] = []
-                state_dict[state].append(1)
-                state_dict[state].append(tweet_score)
+                state_dict[state] = tweet_score
             else:
-                state_dict[state][0] += 1
-                state_dict[state][1] += tweet_score
-        for state, words_and_score in state_dict.iteritems() :
-            yield(state, words_and_score)
+                state_dict[state] += tweet_score
+        for state, score in state_dict.iteritems() :
+            #print state, score
+            yield(state, score)
 
 
-    def reducer(self, key, value):
-        bag = [float(score)/float(num_words) for num_words, score in value]
-        yield (key, round(sum(bag)/len(bag), 2))
+    def reducer(self, state, score):
+        num_tweets, total_score = length_and_sum(score)
+        yield (state, (float(num_tweets), round(float(total_score)/float(num_tweets), 2)))
 
 
 if __name__ == '__main__' :
