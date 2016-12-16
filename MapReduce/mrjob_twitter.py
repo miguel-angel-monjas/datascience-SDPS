@@ -7,9 +7,10 @@ import sys
 import re
 from mrjob.job import MRJob
 from mrjob.step import MRStep
-import argparse
-from ast import literal_eval
-import itertools
+import ssl
+
+if hasattr(ssl, '_create_unverified_context'):
+    ssl._create_default_https_context = ssl._create_unverified_context
 
 __author__ = "Miguel-Angel Monjas"
 __copyright__ = "Copyright 2016"
@@ -25,11 +26,9 @@ def length_and_sum(iterable):
     for item in iterable :
         i += 1
         total += item
-    #print i, total
     return i, total
 
 class MRWordFrequencyCount(MRJob) :
-
     def steps(self):
         return [
             MRStep(mapper=self.mapper,
@@ -39,6 +38,14 @@ class MRWordFrequencyCount(MRJob) :
 
 
     def mapper (self, _, line) :
+        STATES_FILE = 'us_states.txt'
+
+        # state file opening and dictionary population
+        states_dictionary = {}
+        f = open(STATES_FILE, 'r')
+        for file_line in f:
+            states_dictionary[file_line.split('\t')[0]] = file_line.strip().split('\t')[1]
+        f.close()
         try:
             tweet = json.loads(line, encoding='latin-1')
             tweet_id = tweet["id_str"]
@@ -48,7 +55,7 @@ class MRWordFrequencyCount(MRJob) :
             if tweet_place is None:
                 return
         except Exception as e:
-            # print type(e).__name__
+            #print type(e).__name__
             return
 
         try:
@@ -75,6 +82,15 @@ class MRWordFrequencyCount(MRJob) :
             return
 
     def combiner(self, tweet_id, state_and_word):
+        AFFIN_FILE = 'AFINN-111.txt'
+
+        # affinity file opening and dictionary population
+        afinn_dictionary = {}
+        f = open(AFFIN_FILE, 'r')
+        for file_line in f:
+            afinn_dictionary[file_line.split('\t')[0]] = int(file_line.strip().split('\t')[1])
+        f.close()
+
         state_dict = {}
         for [state, word] in state_and_word:
             tweet_score = 0
@@ -86,7 +102,6 @@ class MRWordFrequencyCount(MRJob) :
             else:
                 state_dict[state] += tweet_score
         for state, score in state_dict.iteritems() :
-            #print state, score
             yield(state, score)
 
 
@@ -94,32 +109,5 @@ class MRWordFrequencyCount(MRJob) :
         num_tweets, total_score = length_and_sum(score)
         yield (state, (float(num_tweets), round(float(total_score)/float(num_tweets), 2)))
 
-
 if __name__ == '__main__' :
-    STATES_FILE = 'us_states.txt'
-    AFFIN_FILE = 'AFINN-111.txt'
-
-    # state file opening and dictionary population
-    states_dictionary = {}
-    f = open(STATES_FILE, 'r')
-    for line in f:
-        states_dictionary[line.split('\t')[0]] = line.strip().split('\t')[1]
-    f.close()
-
-    # affinity file opening and dictionary population
-    afinn_dictionary = {}
-    f = open(AFFIN_FILE, 'r')
-    for line in f:
-        afinn_dictionary[line.split('\t')[0]] = int(line.strip().split('\t')[1])
-    f.close()
-
-    # argument management
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--type", help="type of reduce operation: states of hashtags")
-    args = parser.parse_args()
-    if args.type in ['states', 'hashtags']:
-        reduce_operation = args.type
-    else:
-        reduce_operation = 'states'
-
     MRWordFrequencyCount.run()

@@ -2,6 +2,10 @@ Práctica de Sistemas Distribuidos de Procesamiento de Datos: Análisis de
 sentimientos con Hadoop
 Autor: Miguel Ángel Monjas Llorente
 
+Map Reduce Streaming
+====================
+====================
+
 Se proporcionan dos conjuntos de scripts, basados ambos en MapReduce Streaming:
 - mapper_ng.py y reducer_ng.py para la ejecución en local y en Hortonworks
 - mapper_aws.py, reducer_aws y reducer_aws_02 para la ejecución en AWS EMR.
@@ -24,8 +28,8 @@ estado, cada línea será del tipo estado;número_de_tweets;sentimiento_medio. E
 el caso de los hashtags, se sigue también un formato CSV del tipo 
 hashtag;número_de_apariciones
 
-Ejecución local
-===============
+Ejecución Map Reduce Streaming local
+====================================
 La ejecución local en Windows 10 con git bash es de la siguiente forma:
 $ cat dump4.txt | ./mapper_ng.py | sort | ./reducer_ng.py > results_00.txt
 
@@ -39,8 +43,8 @@ $ cat dump4.txt | ./mapper_ng.py | sort | ./reducer_ng.py --type hashtags > resu
 D:\>type dump4.txt | mapper_ng.py | sort | reducer_ng.py --type hashtags > results_10.txt
 
 
-Ejecución en Horton Works
-=========================
+Ejecución Map Reduce Streaming en Horton Works
+==============================================
 
 Antes de poder utilizar la máquina virtual de Hortonworks, hay que efectuar
 algunos procedimientosç:
@@ -85,7 +89,12 @@ ficheros auxiliares no hace falta copiarlos.
 
 [root@sandbox ~]# hdfs dfs -getmerge hdfs://sandbox.hortonworks.com/user/root/output/streaming_01 ./results_01.txt
 
-Ejecución en EMR AWS
-====================
+Ejecución Map Reduce Streaming en EMR AWS
+=========================================
 
 Se muestra en la memoria.
+
+MRJob
+=====
+
+Se proporciona un único script: mrjob_twitter.py. Su uso se muestra en la memoria.
